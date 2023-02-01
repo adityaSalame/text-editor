@@ -19,22 +19,25 @@ public class texteditor extends JFrame implements ActionListener {
 
     JMenuBar menubar;
 
-    JMenu file;
-    JMenuItem save;
-    JMenuItem exit;
+    JMenu file,edit,themes;
+    JMenuItem save,cut,copy,paste,selectAll;
+    JMenuItem exit,darkTheme,LightTheme;
 
     JButton fontColor;
 
 
     texteditor(){
         this.setTitle("Text Editor");
-        this.setSize(500,500);
+        this.setSize(1000,700);
         this.setLayout(new FlowLayout());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container content= this.getContentPane();
+        content.setBackground(new Color(68,158,122));
 
         textArea=new JTextArea();
         textArea.setFont(new Font("Arial",Font.PLAIN,25));
         scene= new JScrollPane(textArea);
-        scene.setPreferredSize(new Dimension(400,400));
+        scene.setPreferredSize(new Dimension(900,500));
         scene.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         fontlabel =new JLabel("Font: ");
@@ -67,13 +70,41 @@ public class texteditor extends JFrame implements ActionListener {
         save = new JMenuItem("Save");
         exit= new JMenuItem("Exit");
 
+        themes= new JMenu("Theme");
+        darkTheme=new JMenuItem("dark");
+        LightTheme=new JMenuItem("light");
+
+        edit=new JMenu("Edit");
+        cut= new JMenuItem("Cut");
+        copy=new JMenuItem("Copy");
+        paste=new JMenuItem("Paste");
+        selectAll=new JMenuItem("Select all");
+
         save.addActionListener(this);
         exit.addActionListener(this);
+
+        darkTheme.addActionListener(this);
+        LightTheme.addActionListener(this);
+
+        cut.addActionListener(this);
+        copy.addActionListener(this);
+        paste.addActionListener(this);
+        selectAll.addActionListener(this);
 
         file.add(save);
         file.add(exit);
 
+        themes.add(darkTheme);
+        themes.add(LightTheme);
+
+        edit.add(cut);
+        edit.add(copy);
+        edit.add(paste);
+        edit.add(selectAll);
+
         menubar.add(file);
+        menubar.add(themes);
+        menubar.add(edit);
 
         this.setJMenuBar(menubar);
         this.add(fontlabel);
@@ -81,6 +112,8 @@ public class texteditor extends JFrame implements ActionListener {
         this.add(fontstylebox);
         this.add(fontColor);
         this.add(scene);
+
+
 
         this.setVisible(true);
 
@@ -92,6 +125,28 @@ public class texteditor extends JFrame implements ActionListener {
             JColorChooser colorChooser = new JColorChooser();
             Color color = colorChooser.showDialog(null, "Choose a color", Color.black);
             textArea.setForeground(color);
+        }
+        if(e.getSource()==copy){
+            textArea.copy();
+        }
+        if(e.getSource()==cut){
+            textArea.cut();
+        }
+        if(e.getSource()==paste){
+            textArea.paste();
+        }
+        if(e.getSource()==selectAll){
+            textArea.selectAll();
+        }
+        if(e.getSource()==darkTheme){
+
+            textArea.setBackground(Color.DARK_GRAY);
+            textArea.setForeground(Color.WHITE);
+
+        }
+        if(e.getSource()==LightTheme){
+            textArea.setBackground(Color.WHITE);
+            textArea.setForeground(Color.BLACK);
         }
         if(e.getSource()==exit){
 
